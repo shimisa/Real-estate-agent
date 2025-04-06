@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 
 
 import java.io.IOException;
@@ -26,9 +27,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 public class SecurityUtil {
 
-    //private static final String secretKey = "secret";
-    private static final byte[] secretKey = new byte[10];
-    private static final Algorithm algorithm = Algorithm.HMAC256(secretKey);
+    @Value("${jwt.secret}")
+    private String secretKey;
+    private static Algorithm algorithm;
     public static final String AUTHORIZATION_PREFIX = "Bearer ";
     public static final int ACCESS_TOKEN_EXP_MILL = 15 * 60 * 1000; // 15 minutes
     public static final int REFRESH_TOKEN_EXP_MILL = 40 * 60 * 1000; // 40 minutes
@@ -37,16 +38,13 @@ public class SecurityUtil {
 
     @PostConstruct
     private void init(){
-        Random r = new Random();
-        r.nextBytes(secretKey);
+        algorithm = Algorithm.HMAC256(secretKey);
     }
 
     public static Algorithm getAlgorithm() {
         return algorithm;
     }
-    public static byte[] getSecretKey(){
-        return secretKey;
-    }
+
 
     public static String verifyAndGetSubject(String token) {
         JWTVerifier verifier = JWT.require(algorithm).build();
