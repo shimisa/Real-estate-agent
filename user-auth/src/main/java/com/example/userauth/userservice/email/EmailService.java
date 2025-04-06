@@ -34,10 +34,17 @@ public class EmailService implements EmailSender {
     @Value("${email.password}")
     private String PASSWORD;
 
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    private static final String SMTP_PORT = "587";
-    private static final String FROM_EMAIL = "dira@gmail.com";
-    private static final String SUBJECT = "Dira - Email Confirmation";
+    @Value("${email.host : smtp.gmail.com}")
+    private String SMTP_HOST;
+
+    @Value("${email.port : 587}")
+    private String SMTP_PORT;
+
+    @Value("${email.from} : dira@gmail.com")
+    private String FROM_EMAIL;
+
+    @Value("${email.subject} : Dira - Email Confirmation")
+    private String SUBJECT;
 
     @Override
     @Async
