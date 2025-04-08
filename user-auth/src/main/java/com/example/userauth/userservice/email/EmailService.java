@@ -34,16 +34,16 @@ public class EmailService implements EmailSender {
     @Value("${email.password}")
     private String PASSWORD;
 
-    @Value("${email.host : smtp.gmail.com}")
+    @Value("${email.host:smtp.gmail.com}")
     private String SMTP_HOST;
 
-    @Value("${email.port : 587}")
+    @Value("${email.port:587}")
     private String SMTP_PORT;
 
-    @Value("${email.from} : dira@gmail.com")
+    @Value("${email.from:dira@gmail.com}")
     private String FROM_EMAIL;
 
-    @Value("${email.subject} : Dira - Email Confirmation")
+    @Value("${email.subject:Dira - Email Confirmation}")
     private String SUBJECT;
 
     @Override
