@@ -1,12 +1,12 @@
-package com.example.userauth.userservice.registration;
+package com.example.userauth.registration;
 
 
-import com.example.userauth.userservice.domain.RoleName;
-import com.example.userauth.userservice.domain.User;
-import com.example.userauth.userservice.email.EmailSender;
-import com.example.userauth.userservice.registration.token.ConfirmationToken;
-import com.example.userauth.userservice.registration.token.ConfirmationTokenService;
-import com.example.userauth.userservice.service.UserService;
+import com.example.userauth.domain.RoleName;
+import com.example.userauth.domain.User;
+import com.example.userauth.email.EmailSender;
+import com.example.userauth.registration.token.ConfirmationToken;
+import com.example.userauth.registration.token.ConfirmationTokenService;
+import com.example.userauth.service.userservice.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,8 @@ public class RegistrationService {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(
                 () -> new IllegalStateException("Token not found"));
         if (confirmationToken.getConfirmedAt() != null){
-            throw new IllegalStateException("Email already confirmed");
+            log.info("Email already confirmed: {}", confirmationToken.getUser().getEmail());
+            return "Confirmed";
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if(expiredAt .isBefore(LocalDateTime.now())) {

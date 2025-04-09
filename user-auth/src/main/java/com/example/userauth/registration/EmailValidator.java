@@ -1,4 +1,4 @@
-package com.example.userauth.userservice.registration;
+package com.example.userauth.registration;
 
 import org.springframework.stereotype.Service;
 

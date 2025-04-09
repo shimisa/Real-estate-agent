@@ -1,9 +1,9 @@
 package com.example.userauth.api;
 
 
-import com.example.userauth.userservice.registration.RegistrationRequest;
-import com.example.userauth.userservice.registration.RegistrationResponse;
-import com.example.userauth.userservice.registration.RegistrationService;
+import com.example.userauth.registration.RegistrationRequest;
+import com.example.userauth.registration.RegistrationResponse;
+import com.example.userauth.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

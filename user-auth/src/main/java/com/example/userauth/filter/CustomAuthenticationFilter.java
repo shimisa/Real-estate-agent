@@ -1,8 +1,8 @@
-package com.example.userauth.userservice.filter;
+package com.example.userauth.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.userauth.userservice.security.SecurityUtil;
+import com.example.userauth.security.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import static com.example.userauth.userservice.security.SecurityUtil.ACCESS_TOKEN_EXP_MILL;
-import static com.example.userauth.userservice.security.SecurityUtil.REFRESH_TOKEN_EXP_MILL;
+import static com.example.userauth.security.SecurityUtil.ACCESS_TOKEN_EXP_MILL;
+import static com.example.userauth.security.SecurityUtil.REFRESH_TOKEN_EXP_MILL;
 
 /**
  * Custom authentication filter for handling JWT tokens.

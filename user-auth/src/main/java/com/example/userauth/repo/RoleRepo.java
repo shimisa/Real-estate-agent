@@ -1,7 +1,7 @@
-package com.example.userauth.userservice.repo;
+package com.example.userauth.repo;
 
-import com.example.userauth.userservice.domain.Role;
-import com.example.userauth.userservice.domain.RoleName;
+import com.example.userauth.domain.Role;
+import com.example.userauth.domain.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

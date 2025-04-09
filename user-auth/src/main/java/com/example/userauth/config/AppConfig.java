@@ -1,4 +1,4 @@
-package com.example.userauth.userservice.config;
+package com.example.userauth.config;
 
 
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.example.userauth.userservice.registration.token;
+package com.example.userauth.registration.token;
 
-import com.example.userauth.userservice.domain.User;
+import com.example.userauth.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

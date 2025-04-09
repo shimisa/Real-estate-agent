@@ -1,6 +1,6 @@
-package com.example.userauth.userservice.repo;
+package com.example.userauth.repo;
 
-import com.example.userauth.userservice.domain.User;
+import com.example.userauth.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,10 @@
 package com.example.userauth.api;
 
 import com.auth0.jwt.JWT;
-import com.example.userauth.userservice.domain.RoleName;
-import com.example.userauth.userservice.domain.User;
-import com.example.userauth.userservice.security.SecurityUtil;
-import com.example.userauth.userservice.service.UserService;
+import com.example.userauth.domain.RoleName;
+import com.example.userauth.domain.User;
+import com.example.userauth.security.SecurityUtil;
+import com.example.userauth.service.userservice.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

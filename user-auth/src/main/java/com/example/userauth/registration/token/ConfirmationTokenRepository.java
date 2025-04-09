@@ -1,6 +1,6 @@
-package com.example.userauth.userservice.registration.token;
+package com.example.userauth.registration.token;
 
-import com.example.userauth.userservice.domain.User;
+import com.example.userauth.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

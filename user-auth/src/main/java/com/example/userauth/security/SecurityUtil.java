@@ -1,4 +1,4 @@
-package com.example.userauth.userservice.security;
+package com.example.userauth.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

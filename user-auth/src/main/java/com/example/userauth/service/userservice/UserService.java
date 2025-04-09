@@ -1,8 +1,8 @@
-package com.example.userauth.userservice.service;
+package com.example.userauth.service.userservice;
 
-import com.example.userauth.userservice.domain.RoleName;
-import com.example.userauth.userservice.domain.User;
-import com.example.userauth.userservice.registration.RegistrationResponse;
+import com.example.userauth.domain.RoleName;
+import com.example.userauth.domain.User;
+import com.example.userauth.registration.RegistrationResponse;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public interface UserService {
     //Role saveRole(Role role);
     void addRoleToUser(String username, RoleName roleName);
     User getUser(String username);
+    public User getUserByToken(String token);
     List<User> getUsers(int page);
     RegistrationResponse signUpUser(User user);
     void enableUser(String email);

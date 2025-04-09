@@ -1,4 +1,4 @@
-package com.example.userauth.userservice.domain;
+package com.example.userauth.domain;
 
 import java.util.stream.Stream;
 

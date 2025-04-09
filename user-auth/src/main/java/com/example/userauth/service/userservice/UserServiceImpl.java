@@ -1,13 +1,14 @@
-package com.example.userauth.userservice.service;
+package com.example.userauth.service.userservice;
 
-import com.example.userauth.userservice.domain.RoleName;
-import com.example.userauth.userservice.domain.User;
-import com.example.userauth.userservice.email.EmailSender;
-import com.example.userauth.userservice.registration.RegistrationResponse;
-import com.example.userauth.userservice.registration.token.ConfirmationToken;
-import com.example.userauth.userservice.registration.token.ConfirmationTokenService;
-import com.example.userauth.userservice.repo.UserRepo;
-import com.example.userauth.userservice.repo.RoleRepo;
+import com.example.userauth.domain.RoleName;
+import com.example.userauth.domain.User;
+import com.example.userauth.email.EmailSender;
+import com.example.userauth.registration.RegistrationResponse;
+import com.example.userauth.registration.token.ConfirmationToken;
+import com.example.userauth.registration.token.ConfirmationTokenService;
+import com.example.userauth.repo.UserRepo;
+import com.example.userauth.repo.RoleRepo;
+import com.example.userauth.security.SecurityUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.userauth.userservice.registration.RegistrationService.CONFIRMATION_LINK;
-import static com.example.userauth.userservice.registration.token.ConfirmationTokenService.CONFIRMATION_TOKEN_EXPIRY_TIME;
+import static com.example.userauth.registration.RegistrationService.CONFIRMATION_LINK;
+import static com.example.userauth.registration.token.ConfirmationTokenService.CONFIRMATION_TOKEN_EXPIRY_TIME;
+import static com.example.userauth.security.SecurityUtil.verifyAndGetSubject;
 
 
 /**
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+
 
     /**
      * configured the authorities of the loaded user
@@ -86,6 +89,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Fetching user {}", email);
         return userRepo.findByEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException("User not found in the database"));
+    }
+
+    @Override
+    public User getUserByToken(String token) {
+        String userName = SecurityUtil.verifyAndGetSubject(token);
+        return getUser(userName);
     }
 
     @Override

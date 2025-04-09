@@ -1,10 +1,11 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../axiosConfig'; // Import the configured Axios instance
-import { loginUser, registerUser } from '../services/api'; // Import the API functions
-import qs from 'qs'; // Import qs for URL-encoded data formatting
+import { loginUser, registerUser } from '../services/api';
+import { Box, Container } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 function LoginRegisterPage() {
+  const { checkAuth } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -14,25 +15,18 @@ function LoginRegisterPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Simulate a logged-in state (replace with actual authentication logic)
-  const isLoggedIn = false; // Change this to true if the user is logged in
-
-  if (isLoggedIn) {
-    navigate('/'); // Redirect to the dashboard if already logged in
-    return null;
-  }
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
       if (isLogin) {
         const response = await loginUser({ username: email, password });
         console.log('Login successful:', response.data);
+        await checkAuth(); // Add this line to refresh user data
         setSuccessMessage('Login successful! Welcome back.');
         setError(null);
-        navigate('/'); // Redirect to the dashboard
+        navigate('/');
       } else {
-        const data = await registerUser( { firstName, lastName, email, password });
+        const data = await registerUser({ firstName, lastName, email, password });
         console.log('Registration successful:', data);
         setSuccessMessage('Registration successful! Please check your email to confirm your account.');
         setError(null);
@@ -45,49 +39,60 @@ function LoginRegisterPage() {
   };
 
   return (
-    <div className="login-container">
-      <h1>{isLogin ? 'Login' : 'Register'}</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        {!isLogin && (
-          <>
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        flexGrow: 1,
+        mt: 8 // Add margin top to account for fixed navigation
+      }}
+    >
+      <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <div className="login-container">
+          <h1>{isLogin ? 'Login' : 'Register'}</h1>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </>
+            )}
             <input
-              type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </>
-        )}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
-      </form>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        {isLogin ? 'Switch to Register' : 'Switch to Login'}
-      </button>
-    </div>
+            <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
+          </form>
+          <button onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? 'Switch to Register' : 'Switch to Login'}
+          </button>
+        </div>
+      </Container>
+    </Box>
   );
 }
 

@@ -1,4 +1,4 @@
-package com.example.userauth.userservice.email;
+package com.example.userauth.email;
 
 /**
  * @author Shimi Sadaka

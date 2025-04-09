@@ -1,7 +1,7 @@
-package com.example.userauth.userservice.filter;
+package com.example.userauth.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.userauth.userservice.security.SecurityUtil;
+import com.example.userauth.security.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
