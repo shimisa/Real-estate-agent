@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- House icon -->
+  <path d="M20 35h12M14 35V19l12-9 12 9v16M26 35V25" stroke="white" stroke-width="2" fill="none"/>
+  <!-- Dira text -->
+  <text x="45" y="28" font-family="Arial" font-size="24" fill="white">Dira</text>
+</svg>
