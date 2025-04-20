@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static java.lang.Thread.sleep;
 
@@ -22,16 +24,16 @@ import static java.lang.Thread.sleep;
  */
 @RestController
 @RequestMapping(path = "api/register")
-@Tag(name = "Hello API", description = "Endpoints for greeting users")
+@Tag(name = "Registration", description = "Registration API")
 @AllArgsConstructor
 public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest request) throws ExecutionException, InterruptedException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/save").toString());
-        RegistrationResponse response = registrationService.register(request);
-        return ResponseEntity.status(response.getStatus()).body(registrationService.register(request));
+        RegistrationResponse response = registrationService.register(request).get();
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping(path = "/confirm-email")

@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 @Configuration
 public class AppConfig {
 
-    @Bean
+    @Bean(name = "virtualExecutor")
     public ExecutorService virtualThreadExecutor() {
         return Executors.newVirtualThreadPerTaskExecutor();
     }

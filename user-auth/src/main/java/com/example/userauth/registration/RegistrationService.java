@@ -9,10 +9,12 @@ import com.example.userauth.registration.token.ConfirmationTokenService;
 import com.example.userauth.service.userservice.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -32,7 +34,8 @@ public class RegistrationService {
 //    public static final String CONFIRMATION_LINK = "http://localhost:8080/api/registration/confirm?token=";
     public static final String CONFIRMATION_LINK = "http://localhost:3000/confirm-email?token=";
 
-    public RegistrationResponse register(RegistrationRequest request) {
+    @Async("virtualExecutor")
+    public CompletableFuture<RegistrationResponse> register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("Email not valid");
@@ -40,7 +43,7 @@ public class RegistrationService {
         if (request.getPassword().isEmpty()) {
             throw new IllegalStateException("The password is empty");
         }
-        return userService.signUpUser(
+        return CompletableFuture.completedFuture(userService.signUpUser(
                 new User(
                         request.getFirstName(),
                         request.getLastName(),
@@ -48,7 +51,7 @@ public class RegistrationService {
                         request.getPassword(),
                         RoleName.ROLE_USER
                 )
-        );
+        ));
     }
 
     @Transactional
