@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     String existingToken = existingConfirmationToken.getToken();
                     confirmationTokenService.saveConfirmationToken(existingConfirmationToken);
                     emailSender.send(user.getEmail(), emailSender.buildEmail(user.getFirstName(),CONFIRMATION_LINK + existingToken));
-                    return new RegistrationResponse(HttpStatus.CREATED, existingToken, "Email already exists, but not confirmed. A new confirmation email has been sent.");
+                    return new RegistrationResponse(HttpStatus.CREATED, existingToken, "Email already exists, but not confirmed. \n A new confirmation email has been sent.");
                 } else { // if user exists and enabled - throw exception
                     log.error("User is already registered");
                     return new RegistrationResponse(HttpStatus.CONFLICT, null, "User is already registered, go to login page");

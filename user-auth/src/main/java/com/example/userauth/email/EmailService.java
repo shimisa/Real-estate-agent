@@ -46,7 +46,7 @@ public class EmailService implements EmailSender {
     private String SUBJECT;
 
     @Override
-    @Async
+    @Async("virtualExecutor")
     public void send(String to, String email) {
         try {
             Message message = createEmailMessage(to, email);

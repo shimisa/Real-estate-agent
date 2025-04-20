@@ -30,7 +30,7 @@ function LoginRegisterPage() {
       } else {
         const data = await registerUser({ firstName, lastName, email, password });
         console.log('Registration successful:', data);
-        setSuccessMessage('Registration successful! Please check your email to confirm your account.');
+        setSuccessMessage(data.message);
         setError(null);
       }
     } catch (err: any) {
