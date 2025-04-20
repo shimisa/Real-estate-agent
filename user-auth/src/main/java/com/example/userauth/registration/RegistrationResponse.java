@@ -1,6 +1,7 @@
 package com.example.userauth.registration;
 
 import lombok.*;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author Shimi Sadaka
@@ -13,6 +14,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 public class RegistrationResponse {
-    private final int status;
+    private final HttpStatus status;
     private final String token;
+    private final String message;
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -116,26 +117,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (emailExists) {
             User existingUser = userRepo.findByEmail(user.getEmail()).get();
             if (user.equals(existingUser)) { // check if user exists
-                if (!user.isEnabled()) { // if exists and not enabled - send existing confirmation email with new expiry time
+                if (!existingUser.isEnabled()) { // if exists and not enabled - send existing confirmation email with new expiry time
                     ConfirmationToken existingConfirmationToken = confirmationTokenService.getTokenByUser(existingUser).get();
                     existingConfirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(CONFIRMATION_TOKEN_EXPIRY_TIME));
                     String existingToken = existingConfirmationToken.getToken();
                     confirmationTokenService.saveConfirmationToken(existingConfirmationToken);
                     emailSender.send(user.getEmail(), emailSender.buildEmail(user.getFirstName(),CONFIRMATION_LINK + existingToken));
-                    return new RegistrationResponse(201, existingToken);
-                } else {
-                    throw new IllegalStateException("User is already registered");
+                    return new RegistrationResponse(HttpStatus.CREATED, existingToken, "Email already exists, but not confirmed. A new confirmation email has been sent.");
+                } else { // if user exists and enabled - throw exception
+                    log.error("User is already registered");
+                    return new RegistrationResponse(HttpStatus.CONFLICT, null, "User is already registered, go to login page");
                 }
             } else {
                 log.error("email already taken");
-                throw new IllegalStateException("email already taken");
+                return new RegistrationResponse(HttpStatus.CONFLICT, null, "email/password already taken, try another email or password");
             }
 
         }
         saveUser(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         emailSender.send(user.getEmail(), emailSender.buildEmail(user.getFirstName(), CONFIRMATION_LINK + token));
-        return new RegistrationResponse(201, token);
+        return new RegistrationResponse(HttpStatus.CREATED, token, "User registered successfully, please check your email to confirm your account");
     }
 
     @Override

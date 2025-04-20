@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 
+import static java.lang.Thread.sleep;
+
 /**
  * @author Shimi Sadaka
  * @version 1.0
@@ -28,7 +30,8 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest request) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/save").toString());
-        return ResponseEntity.created(uri).body(registrationService.register(request));
+        RegistrationResponse response = registrationService.register(request);
+        return ResponseEntity.status(response.getStatus()).body(registrationService.register(request));
     }
 
     @GetMapping(path = "/confirm-email")

@@ -32,7 +32,7 @@ function LoginRegisterPage() {
         setError(null);
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred');
+      setError(err?.message || 'An error occurred');
       setSuccessMessage(null);
       console.error('Error:', err);
     }
