@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Shimi Sadaka
@@ -26,6 +27,7 @@ public class RegistrationService {
     private EmailValidator emailValidator;
     private UserService userService;
     private ConfirmationTokenService confirmationTokenService;
+    private final ExecutorService executor;
     private final EmailSender emailSender;
 //    public static final String CONFIRMATION_LINK = "http://localhost:8080/api/registration/confirm?token=";
     public static final String CONFIRMATION_LINK = "http://localhost:3000/confirm-email?token=";
@@ -38,7 +40,6 @@ public class RegistrationService {
         if (request.getPassword().isEmpty()) {
             throw new IllegalStateException("The password is empty");
         }
-
         return userService.signUpUser(
                 new User(
                         request.getFirstName(),

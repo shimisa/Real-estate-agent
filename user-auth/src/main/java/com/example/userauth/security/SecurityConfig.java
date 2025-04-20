@@ -74,10 +74,6 @@ public class SecurityConfig {
         return source;
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return userDetailsService;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
